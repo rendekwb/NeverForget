@@ -29,7 +29,9 @@ public class NeverForgetDbHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + ContactEntry.TABLE_NAME + "(" +
                 ContactEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 ContactEntry.COLUMN_CONTACT_FIRST_NAME + " TEXT NOT NULL, " +
-                ContactEntry.COLUMN_CONTACT_LAST_NAME + " TEXT NOT NULL);";
+                ContactEntry.COLUMN_CONTACT_LAST_NAME + " TEXT NOT NULL, " +
+                ContactEntry.COLUMN_CONTACT_PHONE_NUMBER + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_EMAIL + " TEXT);";
 
         String SQL_CREATE_TASKS_TABLE =
                 "CREATE TABLE " + TaskEntry.TABLE_NAME + "(" +

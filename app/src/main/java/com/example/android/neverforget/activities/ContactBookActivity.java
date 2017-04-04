@@ -58,7 +58,9 @@ public class ContactBookActivity extends AppCompatActivity {
         String[] projection = {
                 NeverForgetContract.ContactEntry._ID,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME,
-                NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL
         };
 
         Cursor cursor = db.query(
@@ -83,8 +85,14 @@ public class ContactBookActivity extends AppCompatActivity {
             int lastNameColumnIndex = cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME);
             String lastName = cursor.getString(lastNameColumnIndex);
 
+            int phoneNumberColumnIndex = cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER);
+            String phoneNumber = cursor.getString(phoneNumberColumnIndex);
 
-            contactList.add(new Contact(firstName, lastName, "232-234-4923", "bcrystal@gmail.com"));
+            int emailColumnIndex = cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL);
+            String email = cursor.getString(emailColumnIndex);
+
+
+            contactList.add(new Contact(firstName, lastName, phoneNumber, email));
 
         }
 

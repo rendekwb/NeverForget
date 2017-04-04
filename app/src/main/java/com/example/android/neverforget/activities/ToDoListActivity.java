@@ -49,6 +49,7 @@ public class ToDoListActivity extends AppCompatActivity {
             );
 
             ArrayList<ToDoTask> toDoItems = new ArrayList<ToDoTask>();
+            String priorityString;
 
             for (int i = 0; i < cursor.getCount(); i++) {
 
@@ -57,7 +58,20 @@ public class ToDoListActivity extends AppCompatActivity {
                 int descriptionColumnIndex = cursor.getColumnIndex(NeverForgetContract.TaskEntry.COLUMN_TASK_DESCRIPTION);
                 String description = cursor.getString(descriptionColumnIndex);
 
-                toDoItems.add(new ToDoTask(description, "High"));
+                int priorityColumnIndex = cursor.getColumnIndex(NeverForgetContract.TaskEntry.COLUMN_TASK_PRIORITY);
+                int priority = cursor.getInt(priorityColumnIndex);
+
+                if(priority == 0){
+                    priorityString = "Low";
+                } else if(priority == 1){
+                    priorityString = "Medium";
+                } else {
+                    priorityString = "High";
+                }
+
+
+
+                toDoItems.add(new ToDoTask(description, priorityString));
 
             }
 
