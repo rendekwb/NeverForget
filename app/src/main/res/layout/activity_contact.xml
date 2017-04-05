@@ -11,4 +11,88 @@
     android:orientation="vertical"
     tools:context="com.example.android.neverforget.activities.ContactActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6">
+
+        <TextView
+            android:id="@+id/single_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jane Doe"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="24dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/single_contact_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Phone Number: 440-324-8493"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_below="@id/single_contact_name"
+            android:gravity="center"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/single_contact_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email: example@gmail.com"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_below="@id/single_contact_phone_number"
+            android:gravity="center"
+            android:padding="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/social_icons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/single_contact_email">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/facebook_icon"
+                android:layout_weight="1"
+                android:paddingRight="16dp"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/twitter_icon"
+                android:layout_weight="1"
+                android:paddingRight="16dp"
+                android:paddingTop="0dp"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/instagram_icon"
+                android:layout_weight="1"
+                android:paddingRight="16dp"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/snapchat_icon"
+                android:layout_weight="1"
+                android:paddingRight="16dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

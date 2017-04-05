@@ -1,5 +1,6 @@
 package com.example.android.neverforget.activities;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -102,6 +104,15 @@ public class ContactBookActivity extends AppCompatActivity {
         ListView contactListView = (ListView) findViewById(R.id.contact_book_list_view);
 
         contactListView.setAdapter(contactsAdapter);
+
+        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id){
+                Intent intent = new Intent(ContactBookActivity.this, ContactActivity.class);
+                intent.putExtra("ID", id);
+                startActivity(intent);
+            }
+        });
 
         cursor.close();
     }
