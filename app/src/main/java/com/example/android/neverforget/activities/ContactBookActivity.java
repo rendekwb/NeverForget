@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import com.example.android.neverforget.adapters.ContactAdapter;
 import com.example.android.neverforget.data.NeverForgetContract;
 import com.example.android.neverforget.data.NeverForgetDbHelper;
+import com.example.android.neverforget.data.NeverForgetProvider;
 import com.example.android.neverforget.models.Contact;
 import com.example.android.neverforget.R;
 
@@ -56,8 +58,6 @@ public class ContactBookActivity extends AppCompatActivity {
 
     //method called to display contacts to UI
     private void displayContacts(){
-        //creates readable database
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         //projection used in cursor query
         String[] projection = {
@@ -68,17 +68,7 @@ public class ContactBookActivity extends AppCompatActivity {
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL
         };
 
-        //stores results from SQL query
-        Cursor cursor = db.query(
-                NeverForgetContract.ContactEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
+        Cursor cursor  = getContentResolver().query(NeverForgetContract.ContactEntry.CONTENT_URI, projection, null, null, null);
 
         //Populates ArrayList of contacts
         ArrayList <Contact> contactList = new ArrayList<Contact>();

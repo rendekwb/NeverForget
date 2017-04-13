@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.neverforget.R;
 import com.example.android.neverforget.data.NeverForgetContract;
@@ -25,50 +26,27 @@ public class ContactActivity extends AppCompatActivity {
 
         mDbHelper = new NeverForgetDbHelper(this);
 
-        if(savedInstanceState == null){
+        /*if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
             if(extras == null){
                 id = 0;
+                displayContact(id);
             } else {
                 id = extras.getInt("ID");
-                //displayContact();
+                displayContact(id);
             }
         } else {
             id = (int) savedInstanceState.getSerializable("ID");
-            //displayContact();
-        }
+            displayContact(id);
+        }*/
+
+        displayContact(1);
     }
 
 
 
     //displays contact with appropriate ID
-    private void displayContact(){
-
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        String[] projection = {
-                NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME,
-                NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME,
-        };
-
-        String selection = NeverForgetContract.ContactEntry._ID + " =?";
-        String[] selectionArgs = {String.valueOf(id)};
-
-        Cursor cursor = db.query(
-                NeverForgetContract.ContactEntry.TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-        int firstNameIndex = cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME);
-        String firstName = cursor.getString(firstNameIndex);
-
-        TextView firstNameTextView = (TextView) findViewById(R.id.single_contact_name);
-        firstNameTextView.setText(firstName);
-
+    private void displayContact(int id){
+        Toast.makeText(this, "" + id, Toast.LENGTH_LONG);
     }
 }

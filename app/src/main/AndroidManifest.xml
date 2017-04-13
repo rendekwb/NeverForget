@@ -34,6 +34,10 @@
         <activity
             android:name=".activities.TaskEditorActivity"
             android:label="Edit Task"></activity>
+        <provider
+            android:name=".data.NeverForgetProvider"
+            android:authorities="com.example.android.neverforget"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.android.neverforget.activities;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.android.neverforget.R;
 import com.example.android.neverforget.data.NeverForgetContract;
@@ -54,7 +56,7 @@ public class ContactEditorActivity extends AppCompatActivity {
 
     //Inserts new contact into database
     private void insertContact(){
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
 
         EditText firstNameEditText = (EditText) findViewById(R.id.first_name_edit_text);
         String firstName = firstNameEditText.getText().toString();
@@ -74,9 +76,15 @@ public class ContactEditorActivity extends AppCompatActivity {
         values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER, phoneNumber);
         values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL, email);
 
-        long newRowId = db.insert(NeverForgetContract.ContactEntry.TABLE_NAME, null, values);
+        Uri uri = getContentResolver().insert(NeverForgetContract.ContactEntry.CONTENT_URI, values);
 
-        Log.v("ContactBookActivity", "New Row ID: " + newRowId);
+        if(uri != null){
+            Toast.makeText(this, "Contact Saved", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "An error occurred", Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
 }
