@@ -15,14 +15,18 @@ import static com.example.android.neverforget.data.NeverForgetContract.*;
 
 public class NeverForgetDbHelper extends SQLiteOpenHelper {
 
+    //Global variables for SQLite database
     private static final String DATABASE_NAME = "never_forget.db";
     private static final int DATABASE_VERSION = 1;
 
+    //Constructor
     public NeverForgetDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
 
+    //Method called when no prior instance of the database is established on the device
+    //Creates two tables in the never_forget db (contacts, tasks).
     @Override
     public void onCreate(SQLiteDatabase db){
         String SQL_CREATE_CONTACTS_TABLE =

@@ -6,6 +6,12 @@ import android.provider.BaseColumns;
  * Created by rendekwb on 3/26/17.
  */
 
+/**
+ * Create Contract for never_forget.db
+ * Includes two tables and their corresponding fields
+ */
+
+
 public final class NeverForgetContract {
 
     public static class ContactEntry implements BaseColumns {

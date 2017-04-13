@@ -54,9 +54,12 @@ public class ContactBookActivity extends AppCompatActivity {
     }
 
 
+    //method called to display contacts to UI
     private void displayContacts(){
+        //creates readable database
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
+        //projection used in cursor query
         String[] projection = {
                 NeverForgetContract.ContactEntry._ID,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME,
@@ -65,6 +68,7 @@ public class ContactBookActivity extends AppCompatActivity {
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL
         };
 
+        //stores results from SQL query
         Cursor cursor = db.query(
                 NeverForgetContract.ContactEntry.TABLE_NAME,
                 projection,
@@ -75,6 +79,8 @@ public class ContactBookActivity extends AppCompatActivity {
                 null
         );
 
+
+        //Populates ArrayList of contacts
         ArrayList <Contact> contactList = new ArrayList<Contact>();
 
         for(int i = 0; i < cursor.getCount(); i++){
@@ -99,6 +105,7 @@ public class ContactBookActivity extends AppCompatActivity {
         }
 
 
+        //sets ArrayList to ArrayAdapter
         ContactAdapter contactsAdapter = new ContactAdapter(this, R.layout.contact_list_item, contactList);
 
         ListView contactListView = (ListView) findViewById(R.id.contact_book_list_view);
@@ -114,6 +121,7 @@ public class ContactBookActivity extends AppCompatActivity {
             }
         });
 
+        //close cursor to avoid memory leak
         cursor.close();
     }
 

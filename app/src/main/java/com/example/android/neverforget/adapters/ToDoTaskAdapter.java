@@ -36,10 +36,7 @@ public class ToDoTaskAdapter extends ArrayAdapter<ToDoTask> {
         taskDescriptionView.setText(currentTask.getTaskDescription());
 
         TextView taskUrgencyLevelView = (TextView) taskView.findViewById(R.id.todo_task_priority);
-        taskUrgencyLevelView.setText(currentTask.getUrgency());
-
-        TextView taskCompletedView = (TextView) taskView.findViewById(R.id.todo_task_completed);
-        taskCompletedView.setText("" + currentTask.getIsCompleted());
+        taskUrgencyLevelView.setText("Priority: " + currentTask.getUrgency());
 
         return taskView;
     }

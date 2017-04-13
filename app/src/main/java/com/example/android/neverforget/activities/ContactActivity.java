@@ -13,9 +13,11 @@ import com.example.android.neverforget.data.NeverForgetDbHelper;
 
 public class ContactActivity extends AppCompatActivity {
 
+    //Globals
     int id;
     private NeverForgetDbHelper mDbHelper;
 
+    //OnCreate method called on start of activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class ContactActivity extends AppCompatActivity {
 
 
 
+    //displays contact with appropriate ID
     private void displayContact(){
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();

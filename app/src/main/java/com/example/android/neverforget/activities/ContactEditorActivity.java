@@ -32,6 +32,7 @@ public class ContactEditorActivity extends AppCompatActivity {
 
         stateSpinnerSetUp();
 
+        //Sets listener for inserting a new contact
         Button addButton = (Button) findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +43,7 @@ public class ContactEditorActivity extends AppCompatActivity {
         });
     }
 
+    //Sets R.array.states as spinner, located in strings.xml
     private void stateSpinnerSetUp(){
 
         Spinner stateSpinner = (Spinner) findViewById(R.id.states_spinner);
@@ -50,6 +52,7 @@ public class ContactEditorActivity extends AppCompatActivity {
         stateSpinner.setAdapter(adapter);
     }
 
+    //Inserts new contact into database
     private void insertContact(){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
