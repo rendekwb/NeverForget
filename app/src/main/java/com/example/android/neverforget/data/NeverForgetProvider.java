@@ -57,14 +57,18 @@ public class NeverForgetProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case CONTACT_ID:
-                selection = NeverForgetContract.ContactEntry._ID + "?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selection = NeverForgetContract.ContactEntry._ID + "=?";
+                String id = String.valueOf(ContentUris.parseId(uri));
+                selectionArgs = new String[] {id};
                 cursor = db.query(NeverForgetContract.ContactEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return cursor;
     }
 
@@ -89,6 +93,11 @@ public class NeverForgetProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         long newRowID = db.insert(NeverForgetContract.ContactEntry.TABLE_NAME, null, values);
         Log.v("ContactBookActivity", "New Row ID: " + newRowID);
+
+        if(newRowID != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
         return ContentUris.withAppendedId(uri, newRowID);
     }
 
@@ -113,6 +122,11 @@ public class NeverForgetProvider extends ContentProvider {
     private int updateContact(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int numRowsAffected = db.update(NeverForgetContract.ContactEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if(numRowsAffected != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
         return numRowsAffected;
     }
 
@@ -135,7 +149,14 @@ public class NeverForgetProvider extends ContentProvider {
 
     private int deleteContact(Uri uri, String selection, String[] selectionArgs){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        return db.delete(NeverForgetContract.ContactEntry.TABLE_NAME, selection, selectionArgs);
+
+        int rowsDeleted = db.delete(NeverForgetContract.ContactEntry.TABLE_NAME, selection, selectionArgs);
+
+        if(rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
 
     /**

@@ -29,8 +29,8 @@
             android:label="Contacts">
         </activity>
         <activity
-            android:name=".activities.ContactEditorActivity"
-            android:label="Add Contact"></activity>
+            android:name=".activities.ContactEditorActivity">
+        </activity>
         <activity
             android:name=".activities.TaskEditorActivity"
             android:label="Edit Task"></activity>
