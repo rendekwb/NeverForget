@@ -187,21 +187,12 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"/>
 
-        <EditText
-            android:id="@+id/snapchat_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Snapchat"
-            android:layout_below="@id/instagram_edit_text"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"/>
-
         <Button
             android:id="@+id/add_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add"
-            android:layout_below="@id/snapchat_edit_text"/>
+            android:text="Add New Contact"
+            android:layout_below="@id/instagram_edit_text"/>
 
     </RelativeLayout>
 

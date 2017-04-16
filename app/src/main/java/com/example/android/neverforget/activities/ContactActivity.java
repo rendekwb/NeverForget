@@ -1,16 +1,18 @@
 package com.example.android.neverforget.activities;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,10 +21,8 @@ import android.widget.Toast;
 
 import com.example.android.neverforget.R;
 import com.example.android.neverforget.data.NeverForgetContract;
-import com.example.android.neverforget.data.NeverForgetDbHelper;
 
-import static android.R.attr.id;
-import static java.security.AccessController.getContext;
+import static android.R.attr.button;
 
 public class ContactActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -37,6 +37,8 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        final Context context = this;
 
         nameTextView = (TextView) findViewById(R.id.single_contact_name);
         phoneNumberTextView = (TextView) findViewById(R.id.single_contact_phone_number);
@@ -65,9 +67,37 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
         Button deleteButton = (Button) findViewById(R.id.delete_contact_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Contact Deleted", Toast.LENGTH_LONG).show();
+            public void onClick(View view){
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        context);
+
+                // set title
+                alertDialogBuilder.setTitle("Are you sure you want to delete this contact?");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                getContentResolver().delete(ContentUris.withAppendedId(NeverForgetContract.ContactEntry.CONTENT_URI, ContentUris.parseId(mCurrentContactUri)), null, null);
+                                Toast.makeText(getApplicationContext(), "Contact Deleted", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
             }
+
         });
 
     }
@@ -165,4 +195,8 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+
 }
+
+

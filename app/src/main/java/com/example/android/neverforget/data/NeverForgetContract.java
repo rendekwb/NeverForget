@@ -48,7 +48,6 @@ public final class NeverForgetContract {
         public static final String COLUMN_CONTACT_FACEBOOK_URL = "facebookURL";
         public static final String COLUMN_CONTACT_TWITTER_URL = "twitterURL";
         public static final String COLUMN_CONTACT_INSTAGRAM_URL = "instagramURL";
-        public static final String COLUMN_CONTACT_SNAPCHAT_HANDLE = "snapchatHandle";
     }
 
     public static class TaskEntry implements BaseColumns{

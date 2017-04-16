@@ -17,6 +17,8 @@ import com.example.android.neverforget.R;
 import com.example.android.neverforget.data.NeverForgetContract;
 import com.example.android.neverforget.data.NeverForgetDbHelper;
 
+import java.util.Date;
+
 /**
  * Created by rendekwb on 3/21/17.
  */
@@ -80,10 +82,14 @@ public class TaskEditorActivity extends AppCompatActivity{
         EditText descriptionEditText = (EditText) findViewById(R.id.new_task_description_edit_text);
         String description = descriptionEditText.getText().toString();
 
+        Date createdOn = new Date();
+        Log.v("created on: ", createdOn.toString());
+
 
         ContentValues values = new ContentValues();
         values.put(NeverForgetContract.TaskEntry.COLUMN_TASK_DESCRIPTION, description);
         values.put(NeverForgetContract.TaskEntry.COLUMN_TASK_PRIORITY, mPriority);
+        values.put(NeverForgetContract.TaskEntry.COLUMN_TASK_CREATED_ON, createdOn.toString());
 
         long newRowId = db.insert(NeverForgetContract.TaskEntry.TABLE_NAME, null, values);
         Log.v("TaskEditorActivity", "New Row ID: " + newRowId);

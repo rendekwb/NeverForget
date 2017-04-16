@@ -23,21 +23,22 @@
             android:label="@string/calendar" />
         <activity
             android:name=".activities.ContactBookActivity"
-            android:label="@string/contact_book"></activity>
+            android:label="@string/contact_book" />
         <activity
             android:name=".activities.ContactActivity"
-            android:label="Contacts">
-        </activity>
-        <activity
-            android:name=".activities.ContactEditorActivity">
-        </activity>
+            android:label="Contacts" />
+        <activity android:name=".activities.ContactEditorActivity" />
         <activity
             android:name=".activities.TaskEditorActivity"
-            android:label="Edit Task"></activity>
+            android:label="Edit Task" />
+
         <provider
             android:name=".data.NeverForgetProvider"
             android:authorities="com.example.android.neverforget"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity android:name=".activities.CalendarEventEditorActivity" />
+        <activity android:name=".activities.EventsOnDateActivity"></activity>
     </application>
 
 </manifest>

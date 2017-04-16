@@ -62,7 +62,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
         facebookEditText = (EditText) findViewById(R.id.facebook_edit_text);
         twitterEditText = (EditText) findViewById(R.id.twitter_edit_text);
         instagramEditText = (EditText) findViewById(R.id.instagram_edit_text);
-        snapchatEditText = (EditText) findViewById(R.id.snapchat_edit_text);
 
         stateSpinnerSetUp();
         Button addButton = (Button) findViewById(R.id.add_button);
@@ -122,7 +121,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
         String facebookHandle = facebookEditText.getText().toString();
         String twitterHandle = twitterEditText.getText().toString();
         String instagramHandle = instagramEditText.getText().toString();
-        String snapchatHandle = snapchatEditText.getText().toString();
 
         ContentValues values = new ContentValues();
         values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME, firstName);
@@ -137,7 +135,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
         values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL, facebookHandle);
         values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL, twitterHandle);
         values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL, instagramHandle);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_SNAPCHAT_HANDLE, snapchatHandle);
 
 
 
@@ -179,7 +176,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL,
-                NeverForgetContract.ContactEntry.COLUMN_CONTACT_SNAPCHAT_HANDLE
 
 
         };
@@ -213,8 +209,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
             facebookEditText.setText(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL)));
             twitterEditText.setText(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL)));
             instagramEditText.setText(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL)));
-            snapchatEditText.setText(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_SNAPCHAT_HANDLE)));
-
 
         }
     }
@@ -233,6 +227,5 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
         facebookEditText.setText("");
         twitterEditText.setText("");
         instagramEditText.setText("");
-        snapchatEditText.setText("");
     }
 }
