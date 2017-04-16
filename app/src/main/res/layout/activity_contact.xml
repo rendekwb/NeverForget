@@ -13,15 +13,8 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_centerHorizontal="true"
         tools:context="com.example.android.neverforget.activities.ContactActivity">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3">
-
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,55 +39,73 @@
                 android:layout_below="@id/single_contact_name"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Phone Number: 440-324-8493"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/single_contact_email"
+                android:id="@+id/single_contact_alternate_phone_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/single_contact_phone_number"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="Email: example@gmail.com"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/single_contact_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/single_contact_alternate_phone_number"
+                android:gravity="center"
+                android:padding="8dp"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/single_contact_alternate_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/single_contact_email"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/single_contact_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/single_contact_alternate_email"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
 
             <LinearLayout
                 android:id="@+id/social_icons_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/single_contact_email">
+                android:layout_below="@id/single_contact_address"
+                android:layout_centerHorizontal="true">
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/facebook_icon" />
+                <ImageButton
+                    android:id="@+id/facebook_image_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:paddingRight="16dp" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:paddingTop="0dp"
-                    android:src="@drawable/twitter_icon" />
+                <ImageButton
+                    android:id="@+id/twitter_image_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:paddingRight="16dp" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/instagram_icon" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/snapchat_icon" />
+                <ImageButton
+                    android:id="@+id/instagram_image_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:paddingRight="16dp" />
             </LinearLayout>
 
             <LinearLayout

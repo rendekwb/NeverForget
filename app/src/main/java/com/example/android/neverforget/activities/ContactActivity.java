@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,17 +22,28 @@ import com.example.android.neverforget.data.NeverForgetContract;
 import com.example.android.neverforget.data.NeverForgetDbHelper;
 
 import static android.R.attr.id;
+import static java.security.AccessController.getContext;
 
 public class ContactActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final int CONTACT_LOADER = 0;
     private Uri mCurrentContactUri;
 
+    //TextViews in ContactActivity
+    TextView nameTextView, phoneNumberTextView, alternatePhoneNumberTextView, emailTextView, alternateEmailTextView, addressTextView;
+
     //OnCreate method called on start of activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        nameTextView = (TextView) findViewById(R.id.single_contact_name);
+        phoneNumberTextView = (TextView) findViewById(R.id.single_contact_phone_number);
+        alternatePhoneNumberTextView = (TextView) findViewById(R.id.single_contact_alternate_phone_number);
+        emailTextView = (TextView) findViewById(R.id.single_contact_email);
+        alternateEmailTextView = (TextView) findViewById(R.id.single_contact_alternate_email);
+        addressTextView = (TextView) findViewById(R.id.single_contact_address);
 
         Intent intent = getIntent();
 
@@ -67,7 +79,12 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER,
-                NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP
         };
 
         Loader<Cursor> c = new CursorLoader(this,   // Parent activity context
@@ -81,13 +98,66 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor cursor) {
         if (cursor == null || cursor.getCount() < 1) {
             return;
         }
         if(cursor.moveToFirst()){
-            TextView nameTextView = (TextView) findViewById(R.id.single_contact_name);
-            nameTextView.setText(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME)));
+            String name = cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME)) + " " +
+                    cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME));
+
+            nameTextView.setText(name);
+            phoneNumberTextView.setText("Phone Number: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER)));
+            alternatePhoneNumberTextView.setText("Alternate Phone Number: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER)));
+            emailTextView.setText("Email: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL)));
+            alternateEmailTextView.setText("Alternate Email: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL)));
+            addressTextView.setText("Address: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS)) + ", " +
+                    cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY)) + " OH, " +
+                    cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP)));
+
+
+            ImageButton facebookButton = (ImageButton) findViewById(R.id.facebook_image_button);
+            ImageButton instagramButton = (ImageButton) findViewById(R.id.instagram_image_button);
+            ImageButton twitterButton = (ImageButton) findViewById(R.id.twitter_image_button);
+            facebookButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL))));
+                    try{
+                        startActivity(intent);
+                    } catch(Exception e){
+                        Toast.makeText(getApplicationContext(), "Not a valid Facebook account", Toast.LENGTH_LONG);
+                    }
+                }
+            });
+
+            instagramButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL))));
+                    try{
+                        startActivity(intent);
+                    } catch(Exception e){
+                        Toast.makeText(getApplicationContext(), "Not a valid Instagram account", Toast.LENGTH_LONG);
+                    }
+                }
+            });
+
+            twitterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL))));
+                    try{
+                        startActivity(intent);
+                    } catch(Exception e){
+                        Toast.makeText(getApplicationContext(), "Not a valid Twitter account", Toast.LENGTH_LONG);
+                    }
+
+                }
+            });
         }
     }
 

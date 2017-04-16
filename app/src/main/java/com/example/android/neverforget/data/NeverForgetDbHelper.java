@@ -35,7 +35,17 @@ public class NeverForgetDbHelper extends SQLiteOpenHelper {
                 ContactEntry.COLUMN_CONTACT_FIRST_NAME + " TEXT NOT NULL, " +
                 ContactEntry.COLUMN_CONTACT_LAST_NAME + " TEXT NOT NULL, " +
                 ContactEntry.COLUMN_CONTACT_PHONE_NUMBER + " TEXT, " +
-                ContactEntry.COLUMN_CONTACT_EMAIL + " TEXT);";
+                ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_EMAIL + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_ADDRESS + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_CITY + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_STATE + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_ZIP + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_FACEBOOK_URL + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_TWITTER_URL + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL + " TEXT, " +
+                ContactEntry.COLUMN_CONTACT_SNAPCHAT_HANDLE + " TEXT);";
 
         String SQL_CREATE_TASKS_TABLE =
                 "CREATE TABLE " + TaskEntry.TABLE_NAME + "(" +
