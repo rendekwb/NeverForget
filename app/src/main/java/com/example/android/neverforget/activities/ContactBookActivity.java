@@ -30,6 +30,7 @@ import com.example.android.neverforget.R;
 import java.util.ArrayList;
 
 import static android.content.ContentUris.withAppendedId;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 public class ContactBookActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 

@@ -55,8 +55,18 @@ public class NeverForgetDbHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_TASK_CREATED_ON + " TEXT, " +
                 TaskEntry.COLUMN_TASK_COMPLETED_ON + " TEXT);";
 
+        String SQL_CREATE_CALENDAR_EVENTS_TABLE =
+                "CREATE TABLE " + CalendarEventEntry.TABLE_NAME + "(" +
+                CalendarEventEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CalendarEventEntry.COLUMN_EVENT_DATE + " TEXT NOT NULL, " +
+                CalendarEventEntry.COLUMN_EVENT_DESCRIPTION + " TEXT NOT NULL, " +
+                CalendarEventEntry.COLUMN_EVENT_LOCATION + " TEXT NOT NULL, " +
+                CalendarEventEntry.COLUMN_EVENT_START_TIME + " TEXT NOT NULL, " +
+                CalendarEventEntry.COLUMN_EVENT_END_TIME + " TEXT NOT NULL);";
+
         db.execSQL(SQL_CREATE_CONTACTS_TABLE);
         db.execSQL(SQL_CREATE_TASKS_TABLE);
+        db.execSQL(SQL_CREATE_CALENDAR_EVENTS_TABLE);
 
     }
 

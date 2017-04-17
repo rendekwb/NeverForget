@@ -4,6 +4,8 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.sql.Date;
+
 /**
  * Created by rendekwb on 3/26/17.
  */
@@ -21,6 +23,8 @@ public final class NeverForgetContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_CONTACTS = "contacts";
+
+    public static final String PATH_CALENDAR_EVENTS = "events";
 
     public static class ContactEntry implements BaseColumns {
 
@@ -67,6 +71,28 @@ public final class NeverForgetContract {
 
         public static final int IS_COMPLETED_FALSE = 0;
         public static final int IS_COMPLETED_TRUE = 1;
+
+    }
+
+    public static class CalendarEventEntry implements BaseColumns{
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CALENDAR_EVENTS);
+
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CALENDAR_EVENTS;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CALENDAR_EVENTS;
+
+        public static final String TABLE_NAME = "calendar_events";
+
+        public static final String _ID = BaseColumns._ID;
+        public static final String COLUMN_EVENT_DATE = "date";
+        public static final String COLUMN_EVENT_LOCATION = "location";
+        public static final String COLUMN_EVENT_DESCRIPTION = "description";
+        public static final String COLUMN_EVENT_START_TIME = "startTime";
+        public static final String COLUMN_EVENT_END_TIME = "endTime";
+
 
     }
 
