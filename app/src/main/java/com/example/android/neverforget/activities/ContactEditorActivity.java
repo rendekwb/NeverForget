@@ -11,11 +11,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,9 +43,13 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
     //EditText views in the ContactEditor layout
     EditText firstNameEditText, alternatePhoneNumberEditText, lastNameEditText, phoneNumberEditText,
             emailEditText, alternateEmailEditText, streetEditText, cityEditText, zipEditText,
-            facebookEditText, twitterEditText, instagramEditText, snapchatEditText;
+            facebookEditText, twitterEditText, instagramEditText;
 
+    TextView errorTextView;
 
+    Spinner statesSpinner;
+
+    PhoneNumberFormattingTextWatcher mPhoneWatcher = new PhoneNumberFormattingTextWatcher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -62,6 +68,14 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
         facebookEditText = (EditText) findViewById(R.id.facebook_edit_text);
         twitterEditText = (EditText) findViewById(R.id.twitter_edit_text);
         instagramEditText = (EditText) findViewById(R.id.instagram_edit_text);
+
+        statesSpinner = (Spinner) findViewById(R.id.states_spinner);
+
+        phoneNumberEditText.addTextChangedListener(mPhoneWatcher);
+        alternatePhoneNumberEditText.addTextChangedListener(mPhoneWatcher);
+
+        errorTextView = (TextView) findViewById(R.id.contact_error_text_view);
+        errorTextView.setVisibility(TextView.GONE);
 
         stateSpinnerSetUp();
         Button addButton = (Button) findViewById(R.id.add_button);
@@ -89,8 +103,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
             public void onClick(View view) {
 
                 manageContact();
-
-                finish();
             }
         });
 
@@ -99,63 +111,99 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
     //Sets R.array.states as spinner, located in strings.xml
     private void stateSpinnerSetUp(){
 
-        Spinner stateSpinner = (Spinner) findViewById(R.id.states_spinner);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.states, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stateSpinner.setAdapter(adapter);
+        statesSpinner.setAdapter(adapter);
     }
 
+    private String checkErrors(){
+        if(firstNameEditText.getText().toString().equals("")){
+            firstNameEditText.requestFocus();
+            errorTextView.setVisibility(TextView.VISIBLE);
+            return "First Name is required.";
+        } else if(lastNameEditText.getText().toString().equals("")){
+            errorTextView.setVisibility(TextView.VISIBLE);
+            lastNameEditText.requestFocus();
+            return "Last Name is required.";
+        } else if(phoneNumberEditText.getText().toString().equals("")){
+            errorTextView.setVisibility(TextView.VISIBLE);
+            phoneNumberEditText.requestFocus();
+            return "Phone Number is required.";
+        } else if(emailEditText.getText().toString().equals("")){
+            errorTextView.setVisibility(TextView.VISIBLE);
+            emailEditText.requestFocus();
+            return "Email is required.";
+        } else if(streetEditText.getText().toString().equals("") || cityEditText.getText().toString().equals("")
+                || zipEditText.getText().toString().equals("")){
+            errorTextView.setVisibility(TextView.VISIBLE);
+            streetEditText.requestFocus();
+            return "Address information must be completed.";
+        }
+
+        return "";
+    }
 
     //Inserts new contact into database
     private void manageContact(){
 
-        String firstName = firstNameEditText.getText().toString();
-        String lastName = lastNameEditText.getText().toString();
-        String phoneNumber = phoneNumberEditText.getText().toString();
-        String alternatePhoneNumber = alternatePhoneNumberEditText.getText().toString();
-        String email = emailEditText.getText().toString();
-        String alternateEmail = alternateEmailEditText.getText().toString();
-        String streetAddress = streetEditText.getText().toString();
-        String city = cityEditText.getText().toString();
-        String zip = zipEditText.getText().toString();
-        String facebookHandle = facebookEditText.getText().toString();
-        String twitterHandle = twitterEditText.getText().toString();
-        String instagramHandle = instagramEditText.getText().toString();
+        errorTextView.setText(checkErrors());
 
-        ContentValues values = new ContentValues();
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME, firstName);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME, lastName);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER, phoneNumber);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER, alternatePhoneNumber);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL, email);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL, alternateEmail);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS, streetAddress);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY, city);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP, zip);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL, facebookHandle);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL, twitterHandle);
-        values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL, instagramHandle);
+        if(errorTextView.getText().equals("")){
 
 
+            String firstName = firstNameEditText.getText().toString();
+            String lastName = lastNameEditText.getText().toString();
+            String phoneNumber = phoneNumberEditText.getText().toString();
+            String alternatePhoneNumber = alternatePhoneNumberEditText.getText().toString();
+            String email = emailEditText.getText().toString();
+            String alternateEmail = alternateEmailEditText.getText().toString();
+            String streetAddress = streetEditText.getText().toString();
+            String city = cityEditText.getText().toString();
+            String state = statesSpinner.getSelectedItem().toString();
+            String zip = zipEditText.getText().toString();
+            String facebookHandle = facebookEditText.getText().toString();
+            String twitterHandle = twitterEditText.getText().toString();
+            String instagramHandle = instagramEditText.getText().toString();
+
+            ContentValues values = new ContentValues();
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME, firstName);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME, lastName);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER, phoneNumber);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER, alternatePhoneNumber);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL, email);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL, alternateEmail);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS, streetAddress);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY, city);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_STATE, state);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP, zip);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL, facebookHandle);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL, twitterHandle);
+            values.put(NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL, instagramHandle);
 
 
+            if (mCurrentContactUri != null) {
+                int updatedRows = getContentResolver().update(ContentUris.withAppendedId(NeverForgetContract.ContactEntry.CONTENT_URI, ContentUris.parseId(mCurrentContactUri)), values, null, null);
 
-        if(mCurrentContactUri != null){
-            int updatedRows = getContentResolver().update(ContentUris.withAppendedId(NeverForgetContract.ContactEntry.CONTENT_URI, ContentUris.parseId(mCurrentContactUri)), values, null, null);
-
-            if(updatedRows == 1){
-                Toast.makeText(this, "Contact Updated", Toast.LENGTH_SHORT).show();
+                if (updatedRows == 1) {
+                    Toast.makeText(this, "Contact Updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show();
+                Uri uri = getContentResolver().insert(NeverForgetContract.ContactEntry.CONTENT_URI, values);
+
+                if (uri != null) {
+                    Toast.makeText(this, "Contact Saved", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "An error occurred", Toast.LENGTH_LONG).show();
+                }
             }
+
+            finish();
         } else {
-            Uri uri = getContentResolver().insert(NeverForgetContract.ContactEntry.CONTENT_URI, values);
-
-            if(uri != null){
-                Toast.makeText(this, "Contact Saved", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "An error occurred", Toast.LENGTH_LONG).show();
-            }
+            ScrollView scrollView = (ScrollView) findViewById(R.id.contact_editor_scroll_view);
+            scrollView.smoothScrollTo(0,0);
         }
 
     }

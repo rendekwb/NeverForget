@@ -25,6 +25,10 @@ public class NeverForgetProvider extends ContentProvider {
 
     private static final int EVENT_ID = 201;
 
+    private static final int TASKS = 300;
+
+    private static final int TASK_ID = 301;
+
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
@@ -33,6 +37,8 @@ public class NeverForgetProvider extends ContentProvider {
         sUriMatcher.addURI(NeverForgetContract.CONTENT_AUTHORITY, NeverForgetContract.PATH_CONTACTS + "/#", CONTACT_ID);
         sUriMatcher.addURI(NeverForgetContract.CONTENT_AUTHORITY, NeverForgetContract.PATH_CALENDAR_EVENTS, EVENTS);
         sUriMatcher.addURI(NeverForgetContract.CONTENT_AUTHORITY, NeverForgetContract.PATH_CALENDAR_EVENTS + "/#", EVENT_ID);
+        sUriMatcher.addURI(NeverForgetContract.CONTENT_AUTHORITY, NeverForgetContract.PATH_TASKS, TASKS);
+        sUriMatcher.addURI(NeverForgetContract.CONTENT_AUTHORITY, NeverForgetContract.PATH_TASKS + "/#", TASK_ID);
 
     }
 
@@ -79,6 +85,16 @@ public class NeverForgetProvider extends ContentProvider {
                 cursor = db.query(NeverForgetContract.CalendarEventEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
+            case TASKS:
+                cursor = db.query(NeverForgetContract.TaskEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            case TASK_ID:
+                selection = NeverForgetContract.TaskEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                cursor = db.query(NeverForgetContract.CalendarEventEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -101,6 +117,9 @@ public class NeverForgetProvider extends ContentProvider {
             case EVENTS:
                 insertEvent(uri, contentValues);
                 break;
+            case TASKS:
+                insertTask(uri, contentValues);
+                break;
             default:
                 throw new IllegalArgumentException("Insertion is not supported for this uri: " + uri);
         }
@@ -109,6 +128,12 @@ public class NeverForgetProvider extends ContentProvider {
     }
 
     private Uri insertContact(Uri uri, ContentValues values) {
+
+        String firstName = values.getAsString(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME);
+        if(firstName == null || firstName.equals("")){
+            throw new IllegalArgumentException("First Name is required");
+        }
+
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         long newRowID = db.insert(NeverForgetContract.ContactEntry.TABLE_NAME, null, values);
         Log.v("ContactBookActivity", "New Row ID: " + newRowID);
@@ -132,6 +157,18 @@ public class NeverForgetProvider extends ContentProvider {
         return ContentUris.withAppendedId(uri, newRowID);
     }
 
+    private Uri insertTask(Uri uri, ContentValues values){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        long newRowID = db.insert(NeverForgetContract.TaskEntry.TABLE_NAME, null, values);
+        Log.v("TaskEditorActivity", "New Row ID: " + newRowID);
+
+        if(newRowID != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return ContentUris.withAppendedId(uri, newRowID);
+    }
+
     /**
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
      */
@@ -145,6 +182,12 @@ public class NeverForgetProvider extends ContentProvider {
                 selection = NeverForgetContract.ContactEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 return updateContact(uri, contentValues, selection, selectionArgs);
+            case EVENTS:
+                return updateEvent(uri, contentValues, selection, selectionArgs);
+            case EVENT_ID:
+                selection = NeverForgetContract.CalendarEventEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return updateEvent(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for this uri: " + uri);
         }
@@ -153,6 +196,17 @@ public class NeverForgetProvider extends ContentProvider {
     private int updateContact(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int numRowsAffected = db.update(NeverForgetContract.ContactEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if(numRowsAffected != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return numRowsAffected;
+    }
+
+    private int updateEvent(Uri uri, ContentValues values, String selection, String[] selectionArgs){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int numRowsAffected = db.update(NeverForgetContract.CalendarEventEntry.TABLE_NAME, values, selection, selectionArgs);
 
         if(numRowsAffected != 0){
             getContext().getContentResolver().notifyChange(uri, null);
@@ -174,6 +228,12 @@ public class NeverForgetProvider extends ContentProvider {
                 selection = NeverForgetContract.ContactEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 return deleteContact(uri, selection, selectionArgs);
+            case EVENTS:
+                return deleteEvent(uri, selection, selectionArgs);
+            case EVENT_ID:
+                selection = NeverForgetContract.CalendarEventEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return deleteEvent(uri, selection, selectionArgs);
             default: throw new IllegalArgumentException("Delete is not supported for this uri: " + uri);
         }
     }
@@ -190,6 +250,18 @@ public class NeverForgetProvider extends ContentProvider {
         return rowsDeleted;
     }
 
+    private int deleteEvent(Uri uri, String selection, String[] selectionArgs){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int rowsDeleted = db.delete(NeverForgetContract.CalendarEventEntry.TABLE_NAME, selection, selectionArgs);
+
+        if(rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
+
+    }
+
     /**
      * Returns the MIME type of data for the content URI.
      */
@@ -201,6 +273,14 @@ public class NeverForgetProvider extends ContentProvider {
                 return NeverForgetContract.ContactEntry.CONTENT_LIST_TYPE;
             case CONTACT_ID:
                 return NeverForgetContract.ContactEntry.CONTENT_ITEM_TYPE;
+            case EVENTS:
+                return NeverForgetContract.CalendarEventEntry.CONTENT_LIST_TYPE;
+            case EVENT_ID:
+                return NeverForgetContract.CalendarEventEntry.CONTENT_ITEM_TYPE;
+            case TASKS:
+                return NeverForgetContract.TaskEntry.CONTENT_LIST_TYPE;
+            case TASK_ID:
+                return NeverForgetContract.TaskEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }

@@ -1,58 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
+    android:id="@+id/calendar_event_editor_scroll_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    tools:context="com.example.android.neverforget.activities.CalendarEventEditorActivity"
     android:layout_height="match_parent"
-    tools:context="com.example.android.neverforget.activities.CalendarEventEditorActivity">
-
-    <EditText
-        android:id="@+id/event_description_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Event description"
-        android:layout_margin="8dp"/>
-
-    <EditText
-        android:id="@+id/event_location_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Event location"
-        android:layout_margin="8dp"
-        android:layout_below="@id/event_description_edit_text"/>
+    android:layout_width="match_parent"
+    android:focusable="false">
 
     <LinearLayout
-        android:id="@+id/event_time_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/event_location_edit_text">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+
+        <TextView
+            android:id="@+id/calendar_event_error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/event_editor_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:textSize="24sp"
+            android:textColor="@android:color/black"
+            android:text="Add Event"
+            android:layout_margin="16dp" />
 
         <EditText
-            android:id="@+id/event_start_time_edit_text"
-            android:layout_width="0dp"
+            android:id="@+id/event_description_edit_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Start time"
-            android:layout_margin="8dp"/>
+            android:inputType="textCapWords"
+            android:hint="Event description"
+            android:layout_margin="16dp"/>
 
         <EditText
-            android:id="@+id/event_end_time_edit_text"
-            android:layout_width="0dp"
+            android:id="@+id/event_location_edit_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="End time"
-            android:layout_margin="8dp"/>
+            android:hint="Event location"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="Start Time: " />
+
+        <TimePicker
+            android:id="@+id/event_start_time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner">
+
+        </TimePicker>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:text="End Time: "/>
+
+        <TimePicker
+            android:id="@+id/event_end_time_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner">
+        </TimePicker>
+
+        <Button
+            android:id="@+id/add_new_event_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="Add Event"/>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/add_new_event_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/event_time_linear_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="30dp"
-        android:text="Add Event"/>
+</ScrollView>
 
-</RelativeLayout>

@@ -1,14 +1,21 @@
 package com.example.android.neverforget.activities;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.android.neverforget.adapters.ContactCursorAdapter;
+import com.example.android.neverforget.adapters.TaskCursorAdapter;
 import com.example.android.neverforget.adapters.ToDoTaskAdapter;
 import com.example.android.neverforget.data.NeverForgetContract;
 import com.example.android.neverforget.data.NeverForgetDbHelper;
@@ -19,76 +26,24 @@ import java.util.ArrayList;
 
 import static android.os.Build.VERSION_CODES.M;
 
-public class ToDoListActivity extends AppCompatActivity {
+public class ToDoListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    private NeverForgetDbHelper mDbHelper;
+    private static final int TASK_LOADER = 0;
+
+    TaskCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_list);
 
-        mDbHelper = new NeverForgetDbHelper(this);
+        ListView todoListView = (ListView) findViewById(R.id.to_do_list_view);
 
-        displayTasks();
+        mCursorAdapter = new TaskCursorAdapter(this, null);
+        todoListView.setAdapter(mCursorAdapter);
 
-    }
+        getLoaderManager().initLoader(TASK_LOADER, null, this);
 
-    private void displayTasks(){
-
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-            Cursor cursor = db.query(
-                    NeverForgetContract.TaskEntry.TABLE_NAME,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-            );
-
-            ArrayList<ToDoTask> toDoItems = new ArrayList<ToDoTask>();
-            String priorityString;
-
-            for (int i = 0; i < cursor.getCount(); i++) {
-
-                cursor.moveToPosition(i);
-
-                int descriptionColumnIndex = cursor.getColumnIndex(NeverForgetContract.TaskEntry.COLUMN_TASK_DESCRIPTION);
-                String description = cursor.getString(descriptionColumnIndex);
-
-                int priorityColumnIndex = cursor.getColumnIndex(NeverForgetContract.TaskEntry.COLUMN_TASK_PRIORITY);
-                int priority = cursor.getInt(priorityColumnIndex);
-
-                if(priority == 0){
-                    priorityString = "Low";
-                } else if(priority == 1){
-                    priorityString = "Medium";
-                } else {
-                    priorityString = "High";
-                }
-
-
-
-                toDoItems.add(new ToDoTask(description, priorityString));
-
-            }
-
-            ToDoTaskAdapter taskAdaptor = new ToDoTaskAdapter(this, R.layout.todo_task, toDoItems);
-
-            ListView listView = (ListView) findViewById(R.id.to_do_list_view);
-
-            listView.setAdapter(taskAdaptor);
-
-            cursor.close();
-
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        displayTasks();
     }
 
     @Override
@@ -105,5 +60,34 @@ public class ToDoListActivity extends AppCompatActivity {
                 startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String[] projection = {
+            NeverForgetContract.TaskEntry._ID,
+            NeverForgetContract.TaskEntry.COLUMN_TASK_DESCRIPTION,
+            NeverForgetContract.TaskEntry.COLUMN_TASK_PRIORITY
+        };
+
+        return new CursorLoader(this, NeverForgetContract.TaskEntry.CONTENT_URI, projection, null, null, null);
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Button updateTasksButton = (Button) findViewById(R.id.update_tasks_button);
+        if(cursor.getCount() == 0){
+            updateTasksButton.setVisibility(View.GONE);
+        } else {
+            updateTasksButton.setVisibility(View.VISIBLE);
+        }
+
+        mCursorAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
     }
 }

@@ -13,6 +13,8 @@
         android:layout_centerHorizontal="true">
     </CalendarView>
 
+
+
     <TextView
         android:id="@+id/date_text_view"
         android:layout_width="match_parent"
@@ -27,9 +29,12 @@
         android:id="@+id/view_events_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date_text_view"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/date_text_view"
         android:layout_margin="30dp"
         android:text="View Events"/>
+
+
+
 
 </RelativeLayout>

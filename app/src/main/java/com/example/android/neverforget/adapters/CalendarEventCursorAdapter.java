@@ -41,7 +41,7 @@ public class CalendarEventCursorAdapter extends CursorAdapter {
         String endTime = cursor.getString(cursor.getColumnIndexOrThrow("endTime"));
 
         descriptionTextView.setText(description);
-        locationTextView.setText(location);
+        locationTextView.setText("Location: " + (location.equals("") ? "No Entry" : location));
         startTimeTextView.setText("Start Time: " + startTime);
         endTimeTextView.setText("End Time: " + endTime);
     }

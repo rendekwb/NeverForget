@@ -2,6 +2,7 @@ package com.example.android.neverforget.activities;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.android.neverforget.R;
 import com.example.android.neverforget.data.NeverForgetContract;
@@ -77,7 +79,6 @@ public class TaskEditorActivity extends AppCompatActivity{
     }
 
     private void insertTask(){
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         EditText descriptionEditText = (EditText) findViewById(R.id.new_task_description_edit_text);
         String description = descriptionEditText.getText().toString();
@@ -91,8 +92,13 @@ public class TaskEditorActivity extends AppCompatActivity{
         values.put(NeverForgetContract.TaskEntry.COLUMN_TASK_PRIORITY, mPriority);
         values.put(NeverForgetContract.TaskEntry.COLUMN_TASK_CREATED_ON, createdOn.toString());
 
-        long newRowId = db.insert(NeverForgetContract.TaskEntry.TABLE_NAME, null, values);
-        Log.v("TaskEditorActivity", "New Row ID: " + newRowId);
+        Uri uri = getContentResolver().insert(NeverForgetContract.TaskEntry.CONTENT_URI, values);
+
+        if(uri != null){
+            Toast.makeText(this, "Task Saved", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "An error occurred", Toast.LENGTH_LONG).show();
+        }
     }
 
 

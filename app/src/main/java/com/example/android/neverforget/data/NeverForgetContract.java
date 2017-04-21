@@ -26,6 +26,8 @@ public final class NeverForgetContract {
 
     public static final String PATH_CALENDAR_EVENTS = "events";
 
+    public static final String PATH_TASKS = "tasks";
+
     public static class ContactEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CONTACTS);
@@ -55,6 +57,14 @@ public final class NeverForgetContract {
     }
 
     public static class TaskEntry implements BaseColumns{
+
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_TASKS);
+
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TASKS;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TASKS;
 
         public static final String TABLE_NAME = "tasks";
 

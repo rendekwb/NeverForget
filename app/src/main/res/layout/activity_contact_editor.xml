@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/contact_editor_scroll_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,12 +12,21 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/contact_error_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"
+            />
+
+        <TextView
             android:id="@+id/edit_contact_layout_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Contact"
             android:textSize="28dp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:layout_below="@id/contact_error_text_view"/>
 
         <TextView
             android:id="@+id/contact_name_section_label"
@@ -44,6 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="First Name"
+                android:inputType="textCapWords"
                 android:layout_weight="1" />
 
             <EditText
@@ -51,6 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Last Name"
+                android:inputType="textCapWords"
                 android:layout_weight="1" />
         </LinearLayout>
 
@@ -70,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone Number"
+            android:inputType="phone"
             android:layout_below="@+id/contact_contactinfo_section_label"
             android:padding="8dp" />
 
@@ -79,6 +92,7 @@
             android:layout_height="wrap_content"
             android:hint="Alternate Phone Number"
             android:layout_below="@+id/phone_number_edit_text"
+            android:inputType="number"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"/>
 
@@ -137,13 +151,14 @@
                 android:id="@+id/states_spinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"></Spinner>
+                android:layout_weight="3"></Spinner>
 
             <EditText
                 android:id="@+id/contact_zip_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:inputType="number"
                 android:hint="Zip"/>
 
 

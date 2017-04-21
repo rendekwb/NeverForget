@@ -41,4 +41,6 @@
         <activity android:name=".activities.EventsOnDateActivity"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 </manifest>

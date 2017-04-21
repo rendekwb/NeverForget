@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/single_contact_address"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/single_contact_alternate_email"
                 android:gravity="center"
@@ -89,29 +89,37 @@
                 android:layout_below="@id/single_contact_address"
                 android:layout_centerHorizontal="true">
 
-                <ImageButton
+                <Button
                     android:id="@+id/facebook_image_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:paddingRight="16dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="16dp"
+                    android:text="Facebook"/>
 
-                <ImageButton
+                <Button
                     android:id="@+id/twitter_image_button"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:paddingRight="16dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="16dp"
+                    android:text="Twitter"/>
 
-                <ImageButton
+                <Button
                     android:id="@+id/instagram_image_button"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:paddingRight="16dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="16dp"
+                    android:text="Instagram"/>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="24dp"
                 android:layout_below="@id/social_icons_container">
 
                 <Button

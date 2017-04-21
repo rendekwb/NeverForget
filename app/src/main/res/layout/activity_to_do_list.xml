@@ -18,16 +18,26 @@
     <ListView
         android:id="@+id/to_do_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:padding="16dp" />
 
-    <Button
-        android:id="@+id/update_tasks_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/to_do_list_view"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="30dp"
-        android:text="Update Tasks" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/update_tasks_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="Update Tasks" />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

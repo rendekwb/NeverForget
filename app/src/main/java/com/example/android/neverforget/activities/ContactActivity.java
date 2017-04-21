@@ -114,7 +114,11 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS,
                 NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY,
-                NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_STATE,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_TWITTER_URL,
+                NeverForgetContract.ContactEntry.COLUMN_CONTACT_INSTAGRAM_URL
         };
 
         Loader<Cursor> c = new CursorLoader(this,   // Parent activity context
@@ -136,28 +140,39 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
             String name = cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FIRST_NAME)) + " " +
                     cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_LAST_NAME));
 
-            nameTextView.setText(name);
-            phoneNumberTextView.setText("Phone Number: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER)));
-            alternatePhoneNumberTextView.setText("Alternate Phone Number: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER)));
-            emailTextView.setText("Email: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL)));
-            alternateEmailTextView.setText("Alternate Email: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL)));
-            addressTextView.setText("Address: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS)) + ", " +
-                    cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY)) + " OH, " +
+            String alternatePhoneNumber = (cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER)).equals("") ? "No Entry" : cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_PHONE_NUMBER)));
+            String alternateEmail = (cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL)).equals("") ? "No Entry" : cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ALTERNATIVE_EMAIL)));
+
+            String address = (cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS)).equals("") ? "No Entry" : cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ADDRESS)) + ", " +
+                    cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_CITY)) + ", " +
+                    cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_STATE)) + " " +
                     cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_ZIP)));
 
 
-            ImageButton facebookButton = (ImageButton) findViewById(R.id.facebook_image_button);
-            ImageButton instagramButton = (ImageButton) findViewById(R.id.instagram_image_button);
-            ImageButton twitterButton = (ImageButton) findViewById(R.id.twitter_image_button);
+            nameTextView.setText(name);
+            phoneNumberTextView.setText("Phone Number: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_PHONE_NUMBER)));
+            alternatePhoneNumberTextView.setText("Alternate Phone Number: " + alternatePhoneNumber);
+            emailTextView.setText("Email: " + cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_EMAIL)));
+            alternateEmailTextView.setText("Alternate Email: " + alternateEmail);
+            addressTextView.setText("Address: " + address);
+
+
+            Button facebookButton = (Button) findViewById(R.id.facebook_image_button);
+            Button instagramButton = (Button) findViewById(R.id.instagram_image_button);
+            Button twitterButton = (Button) findViewById(R.id.twitter_image_button);
             facebookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL))));
-                    try{
-                        startActivity(intent);
-                    } catch(Exception e){
-                        Toast.makeText(getApplicationContext(), "Not a valid Facebook account", Toast.LENGTH_LONG);
+                    if(Uri.parse(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL))).equals("")){
+                        Toast.makeText(getApplicationContext(), "There is no Facebook account associated with this contact", Toast.LENGTH_LONG).show();
+                    } else {
+                        intent.setData(Uri.parse(cursor.getString(cursor.getColumnIndex(NeverForgetContract.ContactEntry.COLUMN_CONTACT_FACEBOOK_URL))));
+                        try {
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "There is no Facebook account associated with this contact", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             });
@@ -170,7 +185,7 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
                     try{
                         startActivity(intent);
                     } catch(Exception e){
-                        Toast.makeText(getApplicationContext(), "Not a valid Instagram account", Toast.LENGTH_LONG);
+                        Toast.makeText(getApplicationContext(), "There is no Instagram account associated with this contact", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -183,7 +198,7 @@ public class ContactActivity extends AppCompatActivity implements LoaderManager.
                     try{
                         startActivity(intent);
                     } catch(Exception e){
-                        Toast.makeText(getApplicationContext(), "Not a valid Twitter account", Toast.LENGTH_LONG);
+                        Toast.makeText(getApplicationContext(), "There is no Twitter account associated with this contact", Toast.LENGTH_LONG).show();
                     }
 
                 }

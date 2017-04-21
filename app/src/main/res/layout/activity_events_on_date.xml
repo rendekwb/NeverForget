@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.android.neverforget.activities.EventsOnDateActivity">
 
     <TextView
@@ -13,23 +14,34 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textColor="@android:color/black"
-        android:gravity="center_horizontal"/>
+        android:gravity="center"
+        android:layout_margin="8dp"
+        android:paddingTop="16dp"/>
 
     <ListView
         android:id="@+id/event_list_view"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="0dp"
         android:padding="16dp"
-        android:layout_below="@id/events_on_date_header"/>
+        android:layout_weight="5"
+        android:longClickable="true"/>
 
-    <Button
-        android:id="@+id/add_event_button"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/event_list_view"
-        android:layout_centerHorizontal="true"
-        android:text="Add Events"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/add_event_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Add Events"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
