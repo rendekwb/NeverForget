@@ -188,9 +188,26 @@ public class NeverForgetProvider extends ContentProvider {
                 selection = NeverForgetContract.CalendarEventEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 return updateEvent(uri, contentValues, selection, selectionArgs);
+            case TASKS:
+                return updateTask(uri, contentValues, selection, selectionArgs);
+            case TASK_ID:
+                selection = NeverForgetContract.TaskEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return updateTask(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for this uri: " + uri);
         }
+    }
+
+    private int updateEvent(Uri uri, ContentValues values, String selection, String[] selectionArgs){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int numRowsAffected = db.update(NeverForgetContract.CalendarEventEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if(numRowsAffected != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return numRowsAffected;
     }
 
     private int updateContact(Uri uri, ContentValues values, String selection, String[] selectionArgs){
@@ -204,9 +221,9 @@ public class NeverForgetProvider extends ContentProvider {
         return numRowsAffected;
     }
 
-    private int updateEvent(Uri uri, ContentValues values, String selection, String[] selectionArgs){
+    private int updateTask(Uri uri, ContentValues values, String selection, String[] selectionArgs){
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        int numRowsAffected = db.update(NeverForgetContract.CalendarEventEntry.TABLE_NAME, values, selection, selectionArgs);
+        int numRowsAffected = db.update(NeverForgetContract.TaskEntry.TABLE_NAME, values, selection, selectionArgs);
 
         if(numRowsAffected != 0){
             getContext().getContentResolver().notifyChange(uri, null);
@@ -234,6 +251,12 @@ public class NeverForgetProvider extends ContentProvider {
                 selection = NeverForgetContract.CalendarEventEntry._ID + "=?";
                 selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
                 return deleteEvent(uri, selection, selectionArgs);
+            case TASKS:
+                return deleteTask(uri, selection, selectionArgs);
+            case TASK_ID:
+                selection = NeverForgetContract.TaskEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return deleteTask(uri, selection, selectionArgs);
             default: throw new IllegalArgumentException("Delete is not supported for this uri: " + uri);
         }
     }
@@ -259,7 +282,17 @@ public class NeverForgetProvider extends ContentProvider {
         }
 
         return rowsDeleted;
+    }
 
+    private int deleteTask(Uri uri, String selection, String[] selectionArgs){
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int rowsDeleted = db.delete(NeverForgetContract.TaskEntry.TABLE_NAME, selection, selectionArgs);
+
+        if(rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
 
     /**

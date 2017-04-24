@@ -15,6 +15,16 @@
         android:textColor="@android:color/black"
         android:padding="16dp"/>
 
+    <View
+        android:id="@+id/calendar_header_underline"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@id/calendar_header"
+        />
+
     <ListView
         android:id="@+id/contact_book_list_view"
         android:layout_width="match_parent"

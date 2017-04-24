@@ -115,7 +115,7 @@ public class EventsOnDateActivity extends AppCompatActivity implements LoaderMan
         final long thing = item;
 
         // set title
-        alertDialogBuilder.setTitle("Are you sure you want to delete this contact?");
+        alertDialogBuilder.setTitle("Are you sure you want to delete this event?");
 
         alertDialogBuilder
                 .setCancelable(false)

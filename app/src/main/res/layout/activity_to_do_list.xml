@@ -15,29 +15,51 @@
         android:textColor="@android:color/black"
         android:padding="16dp"/>
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Completed Tasks"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        />
+
     <ListView
-        android:id="@+id/to_do_list_view"
+        android:id="@+id/completed_to_do_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:padding="16dp" />
+        android:layout_weight="4"
+        android:padding="8dp"
+        />
 
-    <LinearLayout
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Incompleted Tasks"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        />
+
+    <ListView
+        android:id="@+id/incomplete_to_do_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <Button
-            android:id="@+id/update_tasks_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:text="Update Tasks" />
-
-    </LinearLayout>
-
+        android:layout_weight="4"
+        android:padding="8dp"
+        />
 
 
 </LinearLayout>

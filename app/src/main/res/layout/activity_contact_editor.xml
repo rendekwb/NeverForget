@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:hint="Alternate Phone Number"
             android:layout_below="@+id/phone_number_edit_text"
-            android:inputType="number"
+            android:inputType="phone"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"/>
 

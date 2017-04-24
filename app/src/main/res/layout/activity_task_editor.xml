@@ -9,7 +9,8 @@
         android:id="@+id/new_task_description_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint = "Description"/>
+        android:hint = "Description"
+        android:inputType="textCapWords"/>
 
     <LinearLayout
         android:layout_width="match_parent"

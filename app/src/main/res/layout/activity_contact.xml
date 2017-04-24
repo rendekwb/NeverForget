@@ -82,40 +82,79 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp"/>
 
+            <TextView
+                android:id="@+id/single_contact_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/single_contact_address"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
             <LinearLayout
                 android:id="@+id/social_icons_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/single_contact_address"
+                android:layout_below="@id/single_contact_city"
                 android:layout_centerHorizontal="true">
 
-                <Button
-                    android:id="@+id/facebook_image_button"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:text="Facebook"/>
+                    android:gravity="center">
 
-                <Button
-                    android:id="@+id/twitter_image_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:text="Twitter"/>
+                    <ImageButton
+                        android:id="@+id/facebook_image_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/facebook_48"
+                        android:gravity="center"
+                        android:backgroundTint="@android:color/transparent"/>
 
-                <Button
-                    android:id="@+id/instagram_image_button"
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="16dp"
-                    android:text="Instagram"/>
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/twitter_image_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/twitter_48"
+                        android:gravity="center"
+                        android:backgroundTint="@android:color/transparent"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/instagram_image_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/instagram_old_48"
+                        android:gravity="center"
+                        android:backgroundTint="@android:color/transparent"/>
+
+                </LinearLayout>
+
+
+
+
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/manage_contact_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -137,6 +176,17 @@
                     android:text="Delete Contact" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/icons8_credit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/manage_contact_linear_layout"
+                android:text="Icons courtesy of Icons8.com"
+                android:textColor="@android:color/holo_red_dark"
+                android:gravity="center"
+                android:clickable="true"/>
 
         </RelativeLayout>
 

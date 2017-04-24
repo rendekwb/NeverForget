@@ -1,12 +1,19 @@
 package com.example.android.neverforget.adapters;
 
 import android.app.Activity;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.neverforget.activities.ToDoListActivity;
+import com.example.android.neverforget.data.NeverForgetContract;
 import com.example.android.neverforget.models.ToDoTask;
 import com.example.android.neverforget.R;
 

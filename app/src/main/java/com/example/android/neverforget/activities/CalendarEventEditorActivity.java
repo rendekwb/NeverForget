@@ -53,18 +53,23 @@ public class CalendarEventEditorActivity extends AppCompatActivity implements Lo
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
 
+        Button addButton = (Button) findViewById(R.id.add_new_event_button);
 
         mCurrentEventUri = intent.getParcelableExtra("uri");
 
         if(mCurrentEventUri != null){
             setTitle("Edit Event");
             getLoaderManager().initLoader(CONTACT_LOADER, null, this);
+            addButton.setText("Update Event");
+            TextView header = (TextView) findViewById(R.id.event_editor_header);
+            header.setText("Update Event");
+
         } else {
             setTitle("Add Event");
         }
 
 
-        Button addButton = (Button) findViewById(R.id.add_new_event_button);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +114,7 @@ public class CalendarEventEditorActivity extends AppCompatActivity implements Lo
 
             if (endHour > 12) {
                 endHour -= 12;
-                startAMPM = "PM";
+                endAMPM = "PM";
             }
 
             if (startMinute < 10) {
@@ -133,7 +138,9 @@ public class CalendarEventEditorActivity extends AppCompatActivity implements Lo
             values.put(NeverForgetContract.CalendarEventEntry.COLUMN_EVENT_DATE, date);
 
             if (mCurrentEventUri != null) {
-                int numRowsUpdated = getContentResolver().update(ContentUris.withAppendedId(NeverForgetContract.CalendarEventEntry.CONTENT_URI, ContentUris.parseId(mCurrentEventUri)), values, null, null);
+                int numRowsUpdated = getContentResolver().update(
+                        ContentUris.withAppendedId(NeverForgetContract.CalendarEventEntry.CONTENT_URI,
+                        ContentUris.parseId(mCurrentEventUri)), values, null, null);
 
                 if (numRowsUpdated == 1) {
                     Toast.makeText(this, "Event Updated", Toast.LENGTH_SHORT).show();

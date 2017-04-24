@@ -47,7 +47,7 @@ public class TaskCursorAdapter extends CursorAdapter {
 
 
         taskDescriptionView.setText(description);
-        taskUrgencyLevelView.setText(priorityString);
+        taskUrgencyLevelView.setText("Priority: " + priorityString);
 
     }
 }

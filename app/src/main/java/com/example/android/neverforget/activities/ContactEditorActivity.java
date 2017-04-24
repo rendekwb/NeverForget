@@ -88,6 +88,8 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
             setTitle("Edit Contact");
             addButton.setText("Update");
             getLoaderManager().initLoader(CONTACT_LOADER, null, this);
+            TextView header = (TextView) findViewById(R.id.edit_contact_layout_label);
+            header.setText("Update Contact");
         } else {
             setTitle("Add Contact");
         }
@@ -134,11 +136,6 @@ public class ContactEditorActivity extends AppCompatActivity implements LoaderMa
             errorTextView.setVisibility(TextView.VISIBLE);
             emailEditText.requestFocus();
             return "Email is required.";
-        } else if(streetEditText.getText().toString().equals("") || cityEditText.getText().toString().equals("")
-                || zipEditText.getText().toString().equals("")){
-            errorTextView.setVisibility(TextView.VISIBLE);
-            streetEditText.requestFocus();
-            return "Address information must be completed.";
         }
 
         return "";
